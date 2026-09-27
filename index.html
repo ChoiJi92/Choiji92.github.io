@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>이음 · Ieum</title>
+<meta name="description" content="이음이 만드는 앱 — 할렐루양, 그때폰카">
+<link rel="icon" href="img/halleluyang.png">
+<style>
+  :root {
+    --bg: #F4F6F8; --card: #FFFFFF; --text: #15171A; --muted: #5F6570;
+    --chip: #EEF1F4; --line: #E3E6EA;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #111315; --card: #1B1E21; --text: #F2F3F5; --muted: #A2A8B1; --chip: #272B30; --line: #2C3036; }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", "Segoe UI", sans-serif;
+    line-height: 1.6; -webkit-font-smoothing: antialiased;
+  }
+  main { max-width: 640px; margin: 0 auto; padding: 64px 16px 72px; }
+  header h1 { font-size: 32px; letter-spacing: -0.02em; margin: 0; }
+  header p { margin: 6px 0 0; color: var(--muted); }
+  .apps { display: grid; gap: 16px; margin-top: 40px; }
+  .app { background: var(--card); border: 1px solid var(--line); border-radius: 24px; padding: 20px; display: grid; grid-template-columns: 72px 1fr; gap: 16px; align-items: start; }
+  .app img { width: 72px; height: 72px; border-radius: 22%; display: block; }
+  .app h2 { font-size: 20px; margin: 2px 0 2px; letter-spacing: -0.01em; }
+  .app .en { color: var(--muted); font-size: 14px; margin: 0; }
+  .app .desc { margin: 10px 0 14px; }
+  .links { display: flex; flex-wrap: wrap; gap: 8px; }
+  .links a { display: inline-flex; align-items: center; min-height: 40px; padding: 0 16px; border-radius: 999px; background: var(--chip); color: var(--text); text-decoration: none; font-size: 14px; font-weight: 600; }
+  .links a.primary { background: var(--text); color: var(--bg); }
+  footer { margin-top: 40px; color: var(--muted); font-size: 14px; }
+  footer a { color: var(--text); }
+  @media (max-width: 420px) { .app { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>이음 · Ieum</h1>
+    <p>하루를 잇는 작은 앱을 만들어요. · Small apps for everyday moments.</p>
+  </header>
+
+  <section class="apps">
+    <article class="app">
+      <img src="img/halleluyang.png" alt="할렐루양 앱 아이콘">
+      <div>
+        <h2>할렐루양</h2>
+        <p class="en">Halleluyang</p>
+        <p class="desc">예수님과 하루 한 장 말씀. 기도와 감사, 걷기, 꾸미기까지.<br>A verse a day with Jesus — prayer, thanks, walks and outfits.</p>
+        <div class="links">
+          <a class="primary" href="https://apps.apple.com/app/id6812377795">App Store</a>
+          <a href="https://unmarred-judge-712.notion.site/3dd7c5afec0581abbc53ec73c7a47b63">지원 · Support</a>
+          <a href="https://unmarred-judge-712.notion.site/3dd7c5afec0581cc8b3ac0b6cd0b0554">개인정보처리방침 · Privacy</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="app">
+      <img src="img/phonecam.png" alt="그때폰카 앱 아이콘">
+      <div>
+        <h2>그때폰카</h2>
+        <p class="en">Then Phone Cam</p>
+        <p class="desc">그 시절 카메라. 광고 없음 · 구독 없음 · 계정 없음 · 사진 보정은 기기 안에서.<br>Old-school camera looks — no ads, no subscription, no account, all on your device.</p>
+        <div class="links">
+          <a class="primary" href="https://apps.apple.com/app/id6811546596">App Store</a>
+          <a href="https://unmarred-judge-712.notion.site/Support-3e17c5afec0580ce92e9d6e05151328e">지원 · Support</a>
+          <a href="https://unmarred-judge-712.notion.site/Privacy-Policy-3e17c5afec058067aab1c8f33a001aef">개인정보처리방침 · Privacy</a>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <footer>
+    문의 · Contact: <a href="mailto:ieum.studio.support@gmail.com">ieum.studio.support@gmail.com</a><br>
+    © 2026 이음
+  </footer>
+</main>
+</body>
+</html>
