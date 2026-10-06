@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>할렐루양 친구 초대</title>
+<meta name="description" content="친구가 할렐루양에 초대했어요. 초대 코드를 넣으면 둘 다 50 달란트를 받아요.">
+<!-- 링크 미리보기 (카카오톡·문자·SNS). 크롤러는 스크립트를 돌리지 않으므로 사람마다 달라지지 않는 공통 문구다 -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="할렐루양">
+<meta property="og:title" content="친구가 할렐루양에 초대했어요">
+<meta property="og:description" content="초대 코드를 넣으면 둘 다 50 달란트를 받아요">
+<meta property="og:image" content="https://choiji92.github.io/i/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://choiji92.github.io/i/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="apple-itunes-app" content="app-id=6812377795">
+<link rel="icon" href="../img/halleluyang.png">
+<style>
+  @font-face { font-family: Neo; src: url(../join/NeoDunggeunmo.ttf) format("truetype"); font-display: swap; }
+  :root { --text: #15171A; --muted: #4A5460; --card: #FFFFFF; --chip: #EEF1F4; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; min-height: 100%; }
+  body {
+    background: linear-gradient(180deg, #9FCDF2 0%, #CFE7FA 55%, #EAF5FD 100%) fixed;
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  main { max-width: 440px; margin: 0 auto; padding: 48px 20px calc(40px + env(safe-area-inset-bottom)); text-align: center; }
+  .jesus { width: 150px; image-rendering: pixelated; display: block; margin: 0 auto -8px; }
+  .card { background: var(--card); border-radius: 28px; padding: 28px 22px 24px; box-shadow: 0 10px 30px rgba(30, 60, 100, .12); }
+  .brand { display: inline-flex; align-items: center; gap: 10px; font-family: Neo, sans-serif; font-size: 18px; }
+  .brand img { width: 36px; height: 36px; border-radius: 9px; }
+  h1 { font-family: Neo, sans-serif; font-weight: 400; font-size: 28px; line-height: 1.35; margin: 18px 0 8px; letter-spacing: -0.5px; word-break: keep-all; }
+  .sub { color: var(--muted); margin: 0 0 22px; font-size: 16px; line-height: 1.5; word-break: keep-all; }
+  .code { background: var(--chip); border-radius: 18px; padding: 16px 12px 12px; margin-bottom: 10px; }
+  .code small { display: block; color: var(--muted); font-size: 13px; margin-bottom: 6px; }
+  .code strong { display: block; font-family: Neo, ui-monospace, monospace; font-weight: 400; font-size: 36px; letter-spacing: 2px; }
+  .copy { margin-top: 10px; min-height: 44px; width: 100%; border: 0; border-radius: 999px; background: #fff; color: var(--text); font-size: 16px; font-weight: 700; }
+  .btn { display: flex; align-items: center; justify-content: center; min-height: 54px; border-radius: 999px; font-size: 17px; font-weight: 700; text-decoration: none; margin-top: 10px; }
+  .primary { background: var(--text); color: #fff; }
+  .secondary { background: var(--chip); color: var(--text); }
+  .note { color: var(--muted); font-size: 13px; line-height: 1.6; margin: 8px 0 14px; word-break: keep-all; }
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+<main>
+  <img class="jesus" src="../join/jesus.png" alt="">
+  <div class="card">
+    <div class="brand"><img src="../img/halleluyang.png" alt=""><span>할렐루양</span></div>
+    <h1 id="title">할렐루양에 초대받았어요</h1>
+    <p class="sub" id="sub">매일 말씀 한 장, 예수님과 함께 걷는 앱이에요</p>
+    <div class="code" id="codeBox">
+      <small id="codeLabel">초대 코드</small><strong id="code">—</strong>
+      <button class="copy" id="copy" type="button">복사하기</button>
+    </div>
+    <p class="note" id="note">앱에 로그인한 뒤 설정 → 코드 입력에 넣으면 50 달란트를 받아요.</p>
+    <a class="btn primary" id="store" href="https://apps.apple.com/app/id6812377795">App Store에서 받기</a>
+    <a class="btn secondary" id="open" href="#">앱에서 열기</a>
+    <p class="note hidden" id="android">안드로이드 앱은 곧 나와요.</p>
+  </div>
+</main>
+<script>
+(function () {
+  // 구글 플레이에 올리면 주소를 채운다. 비어 있으면 안드로이드에서 스토어 버튼 대신 "곧 나와요"
+  var PLAY_URL = '';
+  var T = {
+    ko: { named: function (n) { return n + '님이 할렐루양에 초대했어요'; }, plain: '할렐루양에 초대받았어요',
+      sub: '매일 말씀 한 장, 예수님과 함께 걷는 앱이에요', label: '초대 코드', copy: '복사하기', copied: '복사했어요',
+      note: '앱에 로그인한 뒤 설정 → 코드 입력에 넣으면 50 달란트를 받아요.', store: 'App Store에서 받기', play: 'Google Play에서 받기',
+      open: '앱에서 열기', android: '안드로이드 앱은 곧 나와요.', bad: '초대 코드를 확인할 수 없어요. 링크를 다시 받아 주세요.' },
+    en: { named: function (n) { return n + ' invited you to Halleluyang'; }, plain: "You're invited to Halleluyang",
+      sub: 'A verse a day, walking with Jesus.', label: 'Invite code', copy: 'Copy', copied: 'Copied',
+      note: 'Sign in to the app, then go to Settings → Enter a code to get 50 talents.', store: 'Get it on the App Store', play: 'Get it on Google Play',
+      open: 'Open in the app', android: 'The Android app is coming soon.', bad: "We couldn't read this invite code. Please ask for the link again." },
+    'zh-Hant': { named: function (n) { return n + ' 邀請你加入哈利路羊'; }, plain: '你被邀請加入哈利路羊',
+      sub: '每天一張經文，和耶穌一起走。', label: '邀請碼', copy: '複製', copied: '已複製',
+      note: '登入 App 後，到 設定 → 輸入代碼 輸入，就能得到 50 他連得。', store: '在 App Store 下載', play: '在 Google Play 下載',
+      open: '在 App 中開啟', android: 'Android 版即將推出。', bad: '無法讀取這個邀請碼，請重新索取連結。' }
+  };
+  var langs = navigator.languages || [navigator.language || 'ko'];
+  var lang = 'en';
+  for (var i = 0; i < langs.length; i++) {
+    var l = (langs[i] || '').toLowerCase();
+    if (l.indexOf('ko') === 0) { lang = 'ko'; break; }
+    if (l.indexOf('zh-hant') === 0 || l === 'zh-tw' || l === 'zh-hk' || l === 'zh-mo') { lang = 'zh-Hant'; break; }
+    if (l.indexOf('en') === 0) { lang = 'en'; break; }
+  }
+  var t = T[lang];
+  function $(id) { return document.getElementById(id); }
+  var params = new URLSearchParams(location.search);
+  var code = (params.get('c') || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
+  var ok = /^[A-Z0-9]{4,12}$/.test(code);
+  // 닉네임은 글자로만 넣는다(textContent) — 링크에 무엇이 들어와도 페이지 코드로 섞이지 않게. 앱 닉네임은 12자까지
+  var name = Array.from((params.get('n') || '').replace(/[\u0000-\u001f\u007f]/g, '').trim()).slice(0, 12).join('');
+  var isAndroid = /android/i.test(navigator.userAgent);
+
+  document.documentElement.lang = lang;
+  $('title').textContent = name ? t.named(name) : t.plain;
+  $('sub').textContent = t.sub;
+  $('codeLabel').textContent = t.label;
+  $('copy').textContent = t.copy;
+  $('note').textContent = t.note;
+  $('store').textContent = t.store;
+  $('open').textContent = t.open;
+  $('android').textContent = t.android;
+
+  if (!ok) {
+    $('codeBox').classList.add('hidden');
+    $('open').classList.add('hidden');
+    $('note').textContent = t.bad;
+  } else {
+    $('code').textContent = code.match(/.{1,4}/g).join(' ');
+    // 앱이 있으면 코드 입력 시트를 코드가 채워진 채로 연다 (앱 src/app/redeem.tsx ?code=)
+    $('open').href = isAndroid
+      ? 'intent://redeem?code=' + code + '#Intent;scheme=halleluyang;package=com.choiji.halleluyang;end'
+      : 'halleluyang://redeem?code=' + code;
+    // iOS는 앱스토어를 거치면 코드가 사라져서(설치 뒤 첫 실행에 링크 값이 넘어가지 않는다) 여기서 복사해 두게 한다
+    $('copy').addEventListener('click', function () {
+      function done() {
+        $('copy').textContent = t.copied;
+        setTimeout(function () { $('copy').textContent = t.copy; }, 1600);
+      }
+      function fallback() {
+        var ta = document.createElement('textarea');
+        ta.value = code;
+        ta.setAttribute('readonly', '');
+        ta.style.position = 'absolute';
+        ta.style.left = '-9999px';
+        document.body.appendChild(ta);
+        ta.select();
+        try { if (document.execCommand('copy')) done(); } catch (e) {}
+        document.body.removeChild(ta);
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(code).then(done, fallback);
+      else fallback();
+    });
+  }
+  if (isAndroid) {
+    if (PLAY_URL) { $('store').href = PLAY_URL; $('store').textContent = t.play; }
+    else { $('store').classList.add('hidden'); $('android').classList.remove('hidden'); }
+  }
+})();
+</script>
+</body>
+</html>
