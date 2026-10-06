@@ -33,8 +33,8 @@
   .card { background: var(--card); border-radius: 28px; padding: 28px 22px 24px; box-shadow: 0 10px 30px rgba(30, 60, 100, .12); }
   .brand { display: inline-flex; align-items: center; gap: 10px; font-family: Neo, sans-serif; font-size: 18px; }
   .brand img { width: 36px; height: 36px; border-radius: 9px; }
-  h1 { font-family: Neo, sans-serif; font-weight: 400; font-size: 28px; line-height: 1.35; margin: 18px 0 8px; letter-spacing: -0.5px; word-break: keep-all; }
-  .sub { color: var(--muted); margin: 0 0 22px; font-size: 16px; line-height: 1.5; word-break: keep-all; }
+  h1 { font-family: Neo, sans-serif; font-weight: 400; font-size: 28px; line-height: 1.35; margin: 18px 0 8px; letter-spacing: -0.5px; word-break: keep-all; overflow-wrap: anywhere; }
+  .sub { color: var(--muted); margin: 0 0 22px; font-size: 16px; line-height: 1.5; word-break: keep-all; overflow-wrap: anywhere; }
   .code { background: var(--chip); border-radius: 18px; padding: 16px 12px 12px; margin-bottom: 10px; }
   .code small { display: block; color: var(--muted); font-size: 13px; margin-bottom: 6px; }
   .code strong { display: block; font-family: Neo, ui-monospace, monospace; font-weight: 400; font-size: 36px; letter-spacing: 2px; }
@@ -42,8 +42,9 @@
   .btn { display: flex; align-items: center; justify-content: center; min-height: 54px; border-radius: 999px; font-size: 17px; font-weight: 700; text-decoration: none; margin-top: 10px; }
   .primary { background: var(--text); color: #fff; }
   .secondary { background: var(--chip); color: var(--text); }
-  .note { color: var(--muted); font-size: 13px; line-height: 1.6; margin: 8px 0 14px; word-break: keep-all; }
+  .note { color: var(--muted); font-size: 13px; line-height: 1.6; margin: 8px 0 14px; word-break: keep-all; overflow-wrap: anywhere; }
   .hidden { display: none; }
+  @media (max-width: 360px) { h1 { font-size: 24px; } .code strong { font-size: 30px; } }
 </style>
 </head>
 <body>
