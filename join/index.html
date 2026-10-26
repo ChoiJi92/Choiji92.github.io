@@ -55,19 +55,21 @@
     <div class="code" id="codeBox"><small id="codeLabel">초대 코드</small><strong id="code">—</strong></div>
     <a class="btn primary" id="open" href="#">앱에서 열기</a>
     <a class="btn secondary" id="store" href="https://apps.apple.com/kr/app/id6812377795">App Store에서 받기</a>
-    <p class="note" id="note">앱이 열리지 않으면 할렐루양 → 기도 → 함께 → 코드로 들어가기에서 코드를 넣어 주세요.</p>
-    <p class="note hidden" id="android">안드로이드 앱은 곧 나와요.</p>
+    <p class="note" id="note">앱이 열리지 않으면 할렐루양 → 함께 → 소그룹 → 초대 코드로 들어가기에서 코드를 넣어 주세요.</p>
   </div>
 </main>
 <script>
 (function () {
   var T = {
-    ko: { title: '소그룹에 초대받았어요', sub: '함께 기도하는 소그룹이에요.<br>앱에서 초대 코드로 참여해 주세요.', label: '초대 코드', open: '앱에서 열기', store: 'App Store에서 받기',
-      note: '앱이 열리지 않으면 할렐루양 → 기도 → 함께 → 코드로 들어가기에서 코드를 넣어 주세요.', android: '안드로이드 앱은 곧 나와요.', bad: '초대 코드를 확인할 수 없어요. 링크를 다시 받아 주세요.' },
-    en: { title: "You're invited to a prayer group", sub: 'Pray together in Halleluyang.<br>Join with the invite code in the app.', label: 'Invite code', open: 'Open in the app', store: 'Get it on the App Store',
-      note: "If the app doesn't open: Halleluyang → Prayer → Together → Join with a code.", android: 'The Android app is coming soon.', bad: "We couldn't read this invite code. Please ask for the link again." },
-    'zh-Hant': { title: '你被邀請加入禱告小組', sub: '在哈利路羊一起禱告。<br>請在 App 裡輸入邀請碼加入。', label: '邀請碼', open: '在 App 中開啟', store: '在 App Store 下載',
-      note: '如果 App 沒有開啟：哈利路羊 → 禱告 → 一起 → 用邀請碼加入。', android: 'Android 版即將推出。', bad: '無法讀取這個邀請碼，請重新索取連結。' }
+    ko: { title: '소그룹에 초대받았어요', sub: '함께 기도하는 소그룹이에요.<br>앱에서 초대 코드로 참여해 주세요.', label: '초대 코드', open: '앱에서 열기', store: 'App Store에서 받기', play: 'Google Play에서 받기',
+      note: '앱이 열리지 않으면 할렐루양 → 함께 → 소그룹 → 초대 코드로 들어가기에서 코드를 넣어 주세요.', bad: '초대 코드를 확인할 수 없어요. 링크를 다시 받아 주세요.',
+      pubTitle: '공개 소그룹에 함께해요', pubSub: '할렐루양에서 모임을 보고<br>바로 들어갈 수 있어요.', pubNote: '앱이 열리지 않으면 앱을 받은 뒤 이 링크를 다시 눌러 주세요.', pubBad: '모임 링크를 확인할 수 없어요. 링크를 다시 받아 주세요.' },
+    en: { title: "You're invited to a prayer group", sub: 'Pray together in Halleluyang.<br>Join with the invite code in the app.', label: 'Invite code', open: 'Open in the app', store: 'Get it on the App Store', play: 'Get it on Google Play',
+      note: "If the app doesn't open: Halleluyang → Together → Groups → Join with an invite code.", bad: "We couldn't read this invite code. Please ask for the link again.",
+      pubTitle: 'Join a public group', pubSub: 'See the group in Halleluyang<br>and join right away.', pubNote: "If the app doesn't open, install it and tap this link again.", pubBad: "We couldn't read this group link. Please ask for the link again." },
+    'zh-Hant': { title: '你被邀請加入禱告小組', sub: '在哈利路羊一起禱告。<br>請在 App 裡輸入邀請碼加入。', label: '邀請碼', open: '在 App 中開啟', store: '在 App Store 下載', play: '在 Google Play 下載',
+      note: '如果 App 沒有開啟：哈利路羊 → 一起 → 小組 → 用邀請碼加入。', bad: '無法讀取這個邀請碼，請重新索取連結。',
+      pubTitle: '一起加入公開小組', pubSub: '在哈利路羊看看這個小組，<br>可以直接加入。', pubNote: '如果 App 沒有開啟，請先下載再點一次這個連結。', pubBad: '無法讀取這個小組連結，請重新索取連結。' }
   };
   var langs = navigator.languages || [navigator.language || 'ko'];
   var lang = 'en';
@@ -85,25 +87,45 @@
   document.getElementById('open').textContent = t.open;
   document.getElementById('store').textContent = t.store;
   document.getElementById('note').textContent = t.note;
-  document.getElementById('android').textContent = t.android;
 
-  var raw = (new URLSearchParams(location.search).get('c') || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
-  var ok = /^[A-Z0-9]{6,12}$/.test(raw);
+  var params = new URLSearchParams(location.search);
   var isAndroid = /android/i.test(navigator.userAgent);
   var open = document.getElementById('open');
-  if (!ok) {
+  var deep = function (path) {
+    return isAndroid ? 'intent://' + path + '#Intent;scheme=halleluyang;package=com.choiji.halleluyang;end' : 'halleluyang://' + path;
+  };
+  // 공개 소그룹 링크 (?g=모임 id): 코드 없이 앱의 모임 상세로
+  var g = params.get('g');
+  if (g !== null) {
+    document.getElementById('codeBox').classList.add('hidden');
+    document.getElementById('title').textContent = t.pubTitle;
+    document.getElementById('sub').innerHTML = t.pubSub;
+    if (/^[A-Za-z0-9_-]{1,64}$/.test(g) && !/^__.*__$/.test(g)) {
+      open.href = deep('public-group/' + g);
+      document.getElementById('note').textContent = t.pubNote;
+    } else {
+      open.classList.add('hidden');
+      document.getElementById('note').textContent = t.pubBad;
+    }
+  }
+
+  var raw = (params.get('c') || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
+  var ok = /^[A-Z0-9]{6,12}$/.test(raw);
+  if (g !== null) {
+    // 위에서 처리
+  } else if (!ok) {
     document.getElementById('codeBox').classList.add('hidden');
     open.classList.add('hidden');
     document.getElementById('note').textContent = t.bad;
   } else {
     document.getElementById('code').textContent = raw.length === 8 ? raw.slice(0, 4) + ' ' + raw.slice(4) : raw;
-    open.href = isAndroid
-      ? 'intent://join/' + raw + '#Intent;scheme=halleluyang;package=com.choiji.halleluyang;end'
-      : 'halleluyang://join/' + raw;
+    open.href = deep('join/' + raw);
   }
+  // 안드로이드 앱도 나왔다 — Google Play로
   if (isAndroid) {
-    document.getElementById('store').classList.add('hidden');
-    document.getElementById('android').classList.remove('hidden');
+    var store = document.getElementById('store');
+    store.href = 'https://play.google.com/store/apps/details?id=com.choiji.halleluyang';
+    store.textContent = t.play;
   }
 })();
 </script>
