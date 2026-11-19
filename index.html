@@ -2,82 +2,336 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>이음 · Ieum</title>
-<meta name="description" content="이음이 만드는 앱 — 할렐루양, 그때폰카">
-<link rel="icon" href="img/halleluyang.png">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>이음 | 최지가 만든 앱</title>
+<meta name="description" content="혼자 앱을 만드는 최지의 앱 모음. 도쿠도쿠 마을, 뭐해?, 할렐루양, 그때폰카, 이음사주.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://choiji92.github.io/">
+<meta property="og:title" content="이음 | 최지가 만든 앱">
+<meta property="og:description" content="하루를 잇는 작은 앱을 만들어요. 도쿠도쿠 마을, 뭐해?, 할렐루양, 그때폰카, 이음사주.">
+<meta name="theme-color" content="#F1F2F4" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0E1013" media="(prefers-color-scheme: dark)">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" crossorigin>
 <style>
-  :root {
-    --bg: #F4F6F8; --card: #FFFFFF; --text: #15171A; --muted: #5F6570;
-    --chip: #EEF1F4; --line: #E3E6EA;
+/* 레이아웃: 위는 휴대폰 홈 화면(배경화면 위 소개 위젯, 앱 아이콘, 독), 아래는 올라온 시트에 앱별 소개와 화면 */
+:root {
+  --wall: #F1F2F4; --card: #FFFFFF; --line: rgba(18, 26, 34, 0.07);
+  --surface: #FFFFFF; --ink: #121A22; --muted: #5B6672; --soft: #F1F2F4; --grab: #D3D9DF;
+  --live: #1F9D55; --badge: #F2453D; --focus: #2F6FEB;
+  --font-body: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+  --gl: max(16px, env(safe-area-inset-left, 0px));
+  --gr: max(16px, env(safe-area-inset-right, 0px));
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --wall: #0E1013; --card: #1A1D22; --line: rgba(255, 255, 255, 0.07);
+    --surface: #16191D; --ink: #EEF1F4; --muted: #9AA4B0; --soft: #23272E; --grab: #3A414B;
+    --live: #3DCC7A;
+    color-scheme: dark;
   }
-  @media (prefers-color-scheme: dark) {
-    :root { --bg: #111315; --card: #1B1E21; --text: #F2F3F5; --muted: #A2A8B1; --chip: #272B30; --line: #2C3036; }
-  }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0; background: var(--bg); color: var(--text);
-    font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", "Segoe UI", sans-serif;
-    line-height: 1.6; -webkit-font-smoothing: antialiased;
-  }
-  main { max-width: 640px; margin: 0 auto; padding: 64px 16px 72px; }
-  header h1 { font-size: 32px; letter-spacing: -0.02em; margin: 0; }
-  header p { margin: 6px 0 0; color: var(--muted); }
-  .apps { display: grid; gap: 16px; margin-top: 40px; }
-  .app { background: var(--card); border: 1px solid var(--line); border-radius: 24px; padding: 20px; display: grid; grid-template-columns: 72px 1fr; gap: 16px; align-items: start; }
-  .app img { width: 72px; height: 72px; border-radius: 22%; display: block; }
-  .app h2 { font-size: 20px; margin: 2px 0 2px; letter-spacing: -0.01em; }
-  .app .en { color: var(--muted); font-size: 14px; margin: 0; }
-  .app .desc { margin: 10px 0 14px; }
-  .links { display: flex; flex-wrap: wrap; gap: 8px; }
-  .links a { display: inline-flex; align-items: center; min-height: 40px; padding: 0 16px; border-radius: 999px; background: var(--chip); color: var(--text); text-decoration: none; font-size: 14px; font-weight: 600; }
-  .links a.primary { background: var(--text); color: var(--bg); }
-  footer { margin-top: 40px; color: var(--muted); font-size: 14px; }
-  footer a { color: var(--text); }
-  @media (max-width: 420px) { .app { grid-template-columns: 1fr; } }
+}
+:root[data-theme="dark"] {
+  --wall: #0E1013; --card: #1A1D22; --line: rgba(255, 255, 255, 0.07);
+  --surface: #16191D; --ink: #EEF1F4; --muted: #9AA4B0; --soft: #23272E; --grab: #3A414B;
+  --live: #3DCC7A;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--wall); color: var(--ink); font-family: var(--font-body); line-height: 1.5; letter-spacing: -0.01em; }
+a { color: inherit; }
+a:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; border-radius: 12px; }
+.wrap { max-width: 680px; margin: 0 auto; padding-left: var(--gl); padding-right: var(--gr); }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* 홈 화면 */
+.home { padding-top: max(16px, env(safe-area-inset-top, 0px)); padding-bottom: 56px; }
+.bar { display: flex; align-items: center; justify-content: space-between; padding: 0 0 12px 4px; }
+.theme { appearance: none; border: 0; width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: var(--card); color: var(--ink); box-shadow: 0 0 0 1px var(--line); cursor: pointer; }
+.theme svg { width: 20px; height: 20px; }
+.theme:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+.t-sun { display: none; }
+:root[data-theme="dark"] .t-sun { display: block; }
+:root[data-theme="dark"] .t-moon { display: none; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .t-sun { display: block; }
+  :root:not([data-theme="light"]) .t-moon { display: none; }
+}
+.mark { font-size: 20px; font-weight: 800; letter-spacing: -0.03em; text-decoration: none; }
+.mark small { font-size: 12px; font-weight: 500; margin-left: 6px; opacity: 0.7; }
+
+.widget {
+  background: var(--card); border-radius: 26px; padding: 18px 18px 16px;
+  box-shadow: 0 0 0 1px var(--line);
+}
+.who { display: flex; align-items: center; gap: 10px; }
+.who img { width: 44px; height: 44px; border-radius: 50%; display: block; }
+.who p { margin: 0; }
+.who .name { font-weight: 700; font-size: 15px; }
+.who .role { font-size: 13px; color: var(--muted); }
+h1 { font-weight: 700; font-size: clamp(26px, 7vw, 34px); line-height: 1.3; letter-spacing: -0.03em; margin: 14px 0 8px; }
+.lead { margin: 0; font-size: 15px; line-height: 1.6; }
+.lead-en { margin: 4px 0 0; font-size: 13px; color: var(--muted); }
+.news { display: flex; align-items: center; gap: 8px; margin: 14px 0 0; padding-top: 12px; border-top: 1px solid color-mix(in srgb, var(--ink) 10%, transparent); font-size: 14px; }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--live); flex: none; }
+
+.icons { list-style: none; margin: 26px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(76px, 1fr)); gap: 20px 6px; }
+.icons a { position: relative; display: grid; justify-items: center; gap: 6px; text-decoration: none; color: var(--ink); font-size: 12px; font-weight: 500; }
+.icons img { width: 64px; height: 64px; border-radius: 15px; display: block; box-shadow: 0 1px 3px rgba(16, 38, 58, 0.22); }
+.icons .label { max-width: 76px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.badge { position: absolute; top: -7px; left: calc(50% + 20px); min-width: 22px; height: 22px; padding: 0 6px; border-radius: 11px; background: var(--badge); color: #FFFFFF; font-size: 12px; font-weight: 700; display: grid; place-items: center; }
+
+.dock { display: flex; justify-content: center; gap: 28px; margin-top: 30px; padding: 12px 16px 10px; border-radius: 30px; background: var(--card); box-shadow: 0 0 0 1px var(--line); }
+.dock a { display: grid; justify-items: center; gap: 5px; text-decoration: none; color: var(--ink); font-size: 12px; font-weight: 500; }
+.tile { width: 56px; height: 56px; border-radius: 13px; display: grid; place-items: center; color: #FFFFFF; }
+.tile svg { width: 30px; height: 30px; }
+.tile-threads { background: #000000; }
+.tile-mail { background: #3D8BF2; }
+
+/* 시트 */
+.sheet { position: relative; margin-top: -28px; background: var(--surface); border-radius: 28px 28px 0 0; padding-top: 10px; box-shadow: 0 -1px 0 var(--line); }
+.grab { width: 40px; height: 5px; border-radius: 3px; background: var(--grab); margin: 0 auto 18px; }
+.sheet-head { display: flex; align-items: baseline; gap: 10px; }
+h2 { font-weight: 700; font-size: 24px; letter-spacing: -0.03em; margin: 0; }
+.count { color: var(--muted); font-size: 15px; }
+.apps { list-style: none; margin: 4px 0 0; padding: 0; }
+.app { padding-block: 26px 14px; scroll-margin-top: 12px; }
+.app-head { display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 14px; align-items: center; }
+.app-head img { width: 56px; height: 56px; border-radius: 13px; display: block; box-shadow: 0 0 0 1px color-mix(in srgb, var(--ink) 8%, transparent); }
+h3 { font-weight: 700; font-size: 20px; letter-spacing: -0.02em; line-height: 1.3; margin: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 2px 8px; }
+.new { font-size: 12px; font-weight: 700; color: var(--live); display: inline-flex; align-items: center; gap: 6px; letter-spacing: 0; }
+.sub { margin: 2px 0 0; font-size: 14px; color: var(--muted); }
+.desc { margin: 14px 0 0; font-size: 15px; line-height: 1.65; max-width: 36em; }
+.en { margin: 4px 0 0; font-size: 13px; color: var(--muted); }
+.shots { display: flex; gap: 8px; overflow-x: auto; margin: 16px calc(-1 * var(--gr)) 0 calc(-1 * var(--gl)); padding: 0 var(--gr) 4px var(--gl); scroll-snap-type: x proximity; scroll-padding-inline: var(--gl); scrollbar-width: none; }
+.shots::-webkit-scrollbar { display: none; }
+.shots img { flex: none; width: 116px; height: auto; aspect-ratio: 480 / 1040; object-fit: cover; border-radius: 16px; scroll-snap-align: start; background: var(--soft); box-shadow: 0 0 0 1px color-mix(in srgb, var(--ink) 8%, transparent); }
+.stores { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.store { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 18px 0 14px; border-radius: 14px; background: var(--soft); color: var(--ink); font-size: 15px; font-weight: 600; text-decoration: none; }
+.store .ic { width: 18px; height: 18px; flex: none; }
+.store .ic-apple { margin-top: -2px; }
+.meta { display: flex; flex-wrap: wrap; gap: 4px 14px; margin: 12px 0 0; font-size: 13px; color: var(--muted); }
+.meta a { text-decoration: underline; text-underline-offset: 3px; text-decoration-color: color-mix(in srgb, var(--muted) 45%, transparent); }
+
+footer { margin-top: 18px; border-top: 1px solid var(--soft); padding-top: 24px; padding-bottom: calc(48px + env(safe-area-inset-bottom, 0px)); color: var(--muted); font-size: 14px; display: grid; gap: 4px; }
+footer p { margin: 0; }
+footer a { color: var(--ink); }
+
+/* 처음 열 때 한 번만: 홈 화면 잠금 해제처럼 위젯, 아이콘, 독이 차례로 */
+@media (prefers-reduced-motion: no-preference) {
+  .widget, .icons li, .dock { animation: pop 0.5s cubic-bezier(0.2, 0.9, 0.3, 1.15) both; }
+  .icons li:nth-child(1) { animation-delay: 0.08s; }
+  .icons li:nth-child(2) { animation-delay: 0.12s; }
+  .icons li:nth-child(3) { animation-delay: 0.16s; }
+  .icons li:nth-child(4) { animation-delay: 0.2s; }
+  .icons li:nth-child(5) { animation-delay: 0.24s; }
+  .dock { animation-delay: 0.3s; }
+  @keyframes pop { from { opacity: 0; transform: scale(0.88); } }
+}
 </style>
 </head>
 <body>
-<main>
-  <header>
-    <h1>이음 · Ieum</h1>
-    <p>하루를 잇는 작은 앱을 만들어요. · Small apps for everyday moments.</p>
-  </header>
+<script>try { var t = localStorage.getItem("ieum-theme"); if (t === "dark" || t === "light") document.documentElement.setAttribute("data-theme", t); } catch (e) {}</script>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-apple" viewBox="0 0 24 24"><path fill="currentColor" d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></symbol>
+  <symbol id="i-play" viewBox="0 0 40 40"><path fill="#EA4335" d="M19.7 19.2 4.3 35.3c.5 1.7 2.1 3 4 3 .8 0 1.5-.2 2.1-.6l17.4-9.9z"/><path fill="#FBBC04" d="m35.3 16.4-7.5-4.3-8.4 7.4 8.5 8.3 7.5-4.2c1.3-.7 2.2-2.1 2.2-3.6s-.9-2.9-2.3-3.6z"/><path fill="#4285F4" d="M4.3 4.7c-.1.3-.1.7-.1 1.1v28.5c0 .4 0 .7.1 1.1l16-15.7z"/><path fill="#34A853" d="m19.8 20 8-7.9-17.3-9.8c-.6-.4-1.4-.6-2.2-.6-1.9 0-3.6 1.3-4 3z"/></symbol>
+</svg>
+<header class="home">
+  <div class="wrap">
+    <div class="bar">
+      <a class="mark" href="./">이음<small>Ieum</small></a>
+      <button class="theme" type="button" aria-label="어두운 화면으로 바꾸기">
+        <svg class="t-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.2A8.5 8.5 0 1 1 9.8 3.5a6.6 6.6 0 0 0 10.7 10.7z"/></svg>
+        <svg class="t-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></svg>
+      </button>
+    </div>
 
-  <section class="apps">
-    <article class="app">
-      <img src="img/halleluyang.png" alt="할렐루양 앱 아이콘">
-      <div>
-        <h2>할렐루양</h2>
-        <p class="en">Halleluyang</p>
-        <p class="desc">예수님과 하루 한 장 말씀. 기도와 감사, 걷기, 꾸미기까지.<br>A verse a day with Jesus — prayer, thanks, walks and outfits.</p>
-        <div class="links">
-          <a class="primary" href="https://apps.apple.com/app/id6812377795">App Store</a>
-          <a href="https://unmarred-judge-712.notion.site/3dd7c5afec0581abbc53ec73c7a47b63">지원 · Support</a>
-          <a href="https://unmarred-judge-712.notion.site/3dd7c5afec0581cc8b3ac0b6cd0b0554">개인정보처리방침 · Privacy</a>
+    <section class="widget" aria-labelledby="hello">
+      <div class="who">
+        <img src="img/me.jpg" alt="최지 프로필 그림" width="44" height="44">
+        <div>
+          <p class="name">최지</p>
+          <p class="role">혼자 앱 만드는 사람</p>
         </div>
       </div>
-    </article>
+      <h1 id="hello">하루를 잇는<br>작은 앱을 만들어요</h1>
+      <p class="lead">생각한 앱을 기획부터 출시까지 혼자 만들고, 만드는 이야기는 스레드에 올려요.</p>
+      <p class="lead-en">Small apps for everyday moments, made by one person in Korea.</p>
+      <p class="news"><span class="dot" aria-hidden="true"></span>11월에 도쿠도쿠 마을과 뭐해?가 나왔어요</p>
+    </section>
 
-    <article class="app">
-      <img src="img/phonecam.png" alt="그때폰카 앱 아이콘">
-      <div>
-        <h2>그때폰카</h2>
-        <p class="en">Then Phone Cam</p>
-        <p class="desc">그 시절 카메라. 광고 없음 · 구독 없음 · 계정 없음 · 사진 보정은 기기 안에서.<br>Old-school camera looks — no ads, no subscription, no account, all on your device.</p>
-        <div class="links">
-          <a class="primary" href="https://apps.apple.com/app/id6811546596">App Store</a>
-          <a href="https://unmarred-judge-712.notion.site/Support-3e17c5afec0580ce92e9d6e05151328e">지원 · Support</a>
-          <a href="https://unmarred-judge-712.notion.site/Privacy-Policy-3e17c5afec058067aab1c8f33a001aef">개인정보처리방침 · Privacy</a>
-        </div>
+    <nav aria-label="만든 앱">
+      <ul class="icons">
+        <li><a href="#dokudoku"><img src="img/apps/dokudoku-icon.jpg" alt="" width="64" height="64"><span class="badge" aria-hidden="true">N</span><span class="label">도쿠도쿠</span><span class="sr">새로 나옴</span></a></li>
+        <li><a href="#mwohae"><img src="img/apps/mwohae-icon.jpg" alt="" width="64" height="64"><span class="badge" aria-hidden="true">N</span><span class="label">뭐해?</span><span class="sr">새로 나옴</span></a></li>
+        <li><a href="#halleluyang"><img src="img/apps/halleluyang-icon.jpg" alt="" width="64" height="64"><span class="label">할렐루양</span></a></li>
+        <li><a href="#phonecam"><img src="img/apps/phonecam-icon.jpg" alt="" width="64" height="64"><span class="label">그때폰카</span></a></li>
+        <li><a href="#ieumsaju"><img src="img/apps/ieum-icon.jpg" alt="" width="64" height="64"><span class="label">이음사주</span></a></li>
+      </ul>
+    </nav>
+
+    <nav class="dock" aria-label="연락">
+      <a href="https://www.threads.com/@choiji0513">
+        <span class="tile tile-threads" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-4 8"/></svg></span>
+        스레드
+      </a>
+      <a href="mailto:ieum.studio.support@gmail.com">
+        <span class="tile tile-mail" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg></span>
+        메일
+      </a>
+    </nav>
+  </div>
+</header>
+
+<main class="sheet">
+  <div class="wrap">
+    <div class="grab" aria-hidden="true"></div>
+    <section id="apps" aria-labelledby="apps-title">
+      <div class="sheet-head">
+        <h2 id="apps-title">만든 앱</h2>
+        <span class="count">5개</span>
       </div>
-    </article>
-  </section>
+      <ol class="apps">
+        <li class="app" id="dokudoku">
+          <div class="app-head">
+            <img src="img/apps/dokudoku-icon.jpg" alt="" width="56" height="56">
+            <div>
+              <h3>도쿠도쿠 마을<span class="new"><span class="dot" aria-hidden="true"></span>새로 나옴</span></h3>
+              <p class="sub">고양이와 동물 친구들의 힐링 퍼즐</p>
+            </div>
+          </div>
+          <p class="desc">줄, 칸, 색마다 동물을 한 마리씩 놓는 퍼즐이에요. 한 판 풀 때마다 마을에 친구가 늘어요.</p>
+          <p class="en">A cozy logic puzzle with cats and animal friends.</p>
+          <div class="shots">
+            <img src="img/apps/dokudoku-shot1.jpg" alt="도쿠도쿠 마을 화면 1" width="480" height="1040" loading="lazy">
+            <img src="img/apps/dokudoku-shot2.jpg" alt="도쿠도쿠 마을 화면 2" width="480" height="1040" loading="lazy">
+            <img src="img/apps/dokudoku-shot3.jpg" alt="도쿠도쿠 마을 화면 3" width="480" height="1040" loading="lazy">
+            <img src="img/apps/dokudoku-shot4.jpg" alt="도쿠도쿠 마을 화면 4" width="480" height="1040" loading="lazy">
+          </div>
+          <div class="stores">
+            <a class="store" href="https://apps.apple.com/app/id6834826842"><svg class="ic ic-apple" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-apple"/></svg>App Store</a>
+          </div>
+          <p class="meta"><span>2026년 11월 출시</span><a href="https://unmarred-judge-712.notion.site/41a7c5afec0581b5a6e3ea0226b8c345">지원</a><a href="https://unmarred-judge-712.notion.site/4197c5afec05819d8345e2f903e42b97">개인정보처리방침</a></p>
+        </li>
+        <li class="app" id="mwohae">
+          <div class="app-head">
+            <img src="img/apps/mwohae-icon.jpg" alt="" width="56" height="56">
+            <div>
+              <h3>뭐해?<span class="new"><span class="dot" aria-hidden="true"></span>새로 나옴</span></h3>
+              <p class="sub">우리를 닮은 캐릭터가 홈 화면에 같이 살아요</p>
+            </div>
+          </div>
+          <p class="desc">사진 한 장을 찍으면 내 캐릭터가 그 장면에 들어가 연인의 위젯에 떠요.</p>
+          <p class="en">A couple widget. See what your partner is up to, right on your home screen.</p>
+          <div class="shots">
+            <img src="img/apps/mwohae-shot1.jpg" alt="뭐해? 화면 1" width="480" height="1040" loading="lazy">
+            <img src="img/apps/mwohae-shot2.jpg" alt="뭐해? 화면 2" width="480" height="1040" loading="lazy">
+            <img src="img/apps/mwohae-shot3.jpg" alt="뭐해? 화면 3" width="480" height="1040" loading="lazy">
+            <img src="img/apps/mwohae-shot4.jpg" alt="뭐해? 화면 4" width="480" height="1040" loading="lazy">
+          </div>
+          <div class="stores">
+            <a class="store" href="https://apps.apple.com/app/id6833002811"><svg class="ic ic-apple" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-apple"/></svg>App Store</a>
+          </div>
+          <p class="meta"><span>2026년 11월 출시</span><a href="https://unmarred-judge-712.notion.site/4157c5afec05814daa10e4e6b3a55d88">지원</a><a href="https://unmarred-judge-712.notion.site/4137c5afec05812f9530f8d2f3ca5d42">개인정보처리방침</a></p>
+        </li>
+        <li class="app" id="halleluyang">
+          <div class="app-head">
+            <img src="img/apps/halleluyang-icon.jpg" alt="" width="56" height="56">
+            <div>
+              <h3>할렐루양</h3>
+              <p class="sub">나와 동행하는 예수님</p>
+            </div>
+          </div>
+          <p class="desc">예수님과 하루 한 장 말씀을 뽑고, 기도와 감사를 적어요. 소그룹과 함께 읽기, 걷기와 꾸미기도 있어요.</p>
+          <p class="en">A verse a day with Jesus. Prayer, thanks, walks and outfits.</p>
+          <div class="shots">
+            <img src="img/apps/halleluyang-shot1.jpg" alt="할렐루양 화면 1" width="480" height="1040" loading="lazy">
+            <img src="img/apps/halleluyang-shot2.jpg" alt="할렐루양 화면 2" width="480" height="1040" loading="lazy">
+            <img src="img/apps/halleluyang-shot3.jpg" alt="할렐루양 화면 3" width="480" height="1040" loading="lazy">
+            <img src="img/apps/halleluyang-shot4.jpg" alt="할렐루양 화면 4" width="480" height="1040" loading="lazy">
+          </div>
+          <div class="stores">
+            <a class="store" href="https://apps.apple.com/app/id6812377795"><svg class="ic ic-apple" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-apple"/></svg>App Store</a>
+            <a class="store" href="https://play.google.com/store/apps/details?id=com.choiji.halleluyang"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-play"/></svg>Google Play</a>
+          </div>
+          <p class="meta"><span>2026년 9월 출시</span><a href="https://unmarred-judge-712.notion.site/3dd7c5afec0581abbc53ec73c7a47b63">지원</a><a href="https://unmarred-judge-712.notion.site/3dd7c5afec0581cc8b3ac0b6cd0b0554">개인정보처리방침</a></p>
+        </li>
+        <li class="app" id="phonecam">
+          <div class="app-head">
+            <img src="img/apps/phonecam-icon.jpg" alt="" width="56" height="56">
+            <div>
+              <h3>그때폰카</h3>
+              <p class="sub">2000년대 폴더폰과 디카 감성 카메라</p>
+            </div>
+          </div>
+          <p class="desc">광고도 구독도 계정도 없어요. 사진 보정은 기기 안에서만 해요.</p>
+          <p class="en">Old-school camera looks. No ads, no subscription, no account.</p>
+          <div class="shots">
+            <img src="img/apps/phonecam-shot1.jpg" alt="그때폰카 화면 1" width="480" height="1040" loading="lazy">
+            <img src="img/apps/phonecam-shot2.jpg" alt="그때폰카 화면 2" width="480" height="1040" loading="lazy">
+            <img src="img/apps/phonecam-shot3.jpg" alt="그때폰카 화면 3" width="480" height="1040" loading="lazy">
+            <img src="img/apps/phonecam-shot4.jpg" alt="그때폰카 화면 4" width="480" height="1040" loading="lazy">
+          </div>
+          <div class="stores">
+            <a class="store" href="https://apps.apple.com/app/id6811546596"><svg class="ic ic-apple" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-apple"/></svg>App Store</a>
+            <a class="store" href="https://play.google.com/store/apps/details?id=com.choiji.phonecam"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-play"/></svg>Google Play</a>
+          </div>
+          <p class="meta"><span>2026년 9월 출시</span><a href="https://unmarred-judge-712.notion.site/Support-3e17c5afec0580ce92e9d6e05151328e">지원</a><a href="https://unmarred-judge-712.notion.site/Privacy-Policy-3e17c5afec058067aab1c8f33a001aef">개인정보처리방침</a></p>
+        </li>
+        <li class="app" id="ieumsaju">
+          <div class="app-head">
+            <img src="img/apps/ieum-icon.jpg" alt="" width="56" height="56">
+            <div>
+              <h3>이음사주</h3>
+              <p class="sub">토스에서 바로 보는 사주와 운세</p>
+            </div>
+          </div>
+          <p class="desc">생년월일을 넣으면 내 사주를 닮은 정령이 나와요. 매일 교감하며 키우고, 오늘의 운세와 일진 달력, 자미두수 명반도 볼 수 있어요.</p>
+          <p class="en">A Saju fortune mini app on Toss, with a little spirit that grows with you.</p>
+          <div class="shots">
+            <img src="img/apps/ieum-shot1.jpg" alt="이음사주 화면 1" width="480" height="1040" loading="lazy">
+            <img src="img/apps/ieum-shot2.jpg" alt="이음사주 화면 2" width="480" height="1040" loading="lazy">
+          </div>
+          <div class="stores">
+            <a class="store" href="https://minion.toss.im/fLGXK6Nz"><img class="ic" src="img/toss.png" alt="" width="18" height="18">토스에서 열기</a>
+          </div>
+          <p class="meta"><span>2026년 5월 출시</span></p>
+        </li>
+      </ol>
+    </section>
 
-  <footer>
-    문의 · Contact: <a href="mailto:ieum.studio.support@gmail.com">ieum.studio.support@gmail.com</a><br>
-    © 2026 이음
-  </footer>
+    <footer>
+      <p>문의 <a href="mailto:ieum.studio.support@gmail.com">ieum.studio.support@gmail.com</a></p>
+      <p>상호 이음, 대표 최지훈</p>
+      <p>© 2026 이음</p>
+    </footer>
+  </div>
 </main>
+<script>
+/* 다크 모드 버튼: 처음엔 휴대폰 설정을 따르고, 누르면 그 선택을 기억 */
+(function () {
+  var root = document.documentElement, key = "ieum-theme";
+  var system = window.matchMedia("(prefers-color-scheme: dark)");
+  var btn = document.querySelector(".theme");
+  function current() { return root.getAttribute("data-theme") || (system.matches ? "dark" : "light"); }
+  function sync() {
+    var t = current();
+    btn.setAttribute("aria-label", t === "dark" ? "밝은 화면으로 바꾸기" : "어두운 화면으로 바꾸기");
+    if (root.hasAttribute("data-theme")) {
+      document.querySelectorAll('meta[name="theme-color"]').forEach(function (m) { m.setAttribute("content", t === "dark" ? "#0E1013" : "#F1F2F4"); });
+    }
+  }
+  btn.addEventListener("click", function () {
+    var next = current() === "dark" ? "light" : "dark";
+    root.setAttribute("data-theme", next);
+    try { localStorage.setItem(key, next); } catch (e) {}
+    sync();
+  });
+  if (system.addEventListener) system.addEventListener("change", sync);
+  sync();
+})();
+</script>
 </body>
 </html>
